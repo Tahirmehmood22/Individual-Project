@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Badminton Sports App Design System - Enhanced */
+
+@layer base {
+  :root {
+    /* Core Background & Text */
+    --background: 210 30% 96%;
+    --foreground: 155 90% 6%;
+
+    /* Card & Surface Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 155 90% 6%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 155 90% 6%;
+
+    /* Badminton Green Primary Theme - Enhanced */
+    --primary: 155 70% 35%;
+    --primary-foreground: 0 0% 98%;
+    --primary-light: 155 60% 50%;
+    --primary-dark: 155 90% 20%;
+    --primary-glow: 155 70% 60%;
+
+    /* Shuttlecock Orange Accent - Enhanced */
+    --secondary: 25 100% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 25 90% 70%;
+    --secondary-glow: 25 100% 75%;
+
+    /* Court Colors - Enhanced */
+    --muted: 155 20% 94%;
+    --muted-foreground: 155 30% 40%;
+
+    --accent: 45 100% 65%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 45 100% 80%;
+
+    /* Status Colors - Enhanced */
+    --success: 142 90% 40%;
+    --success-foreground: 0 0% 100%;
+    --success-glow: 142 90% 60%;
+    
+    --warning: 35 100% 50%;
+    --warning-foreground: 0 0% 100%;
+    --warning-glow: 35 100% 70%;
+
+    --destructive: 0 90% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* UI Elements */
+    --border: 155 20% 85%;
+    --input: 155 20% 90%;
+    --ring: 155 70% 35%;
+
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-dark)), hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
+    --gradient-court: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)), hsl(var(--background)));
+    --gradient-performance: linear-gradient(45deg, hsl(var(--accent)), hsl(var(--secondary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)), hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
+    --gradient-skill: linear-gradient(135deg, hsl(var(--success)), hsl(var(--primary-light)));
+    --gradient-strength: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--warning)));
+    --gradient-glow: radial-gradient(circle, hsl(var(--primary-glow) / 0.2), transparent);
+
+    /* Enhanced Shadows */
+    --shadow-card: 0 4px 20px hsl(var(--primary) / 0.1);
+    --shadow-performance: 0 8px 32px hsl(var(--accent) / 0.2);
+    --shadow-elevated: 0 16px 48px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+    --shadow-neon: 0 0 20px hsl(var(--accent) / 0.5), 0 0 40px hsl(var(--accent) / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Theme for Evening Training */
+    --background: 155 25% 6%;
+    --foreground: 155 15% 95%;
+
+    --card: 155 15% 8%;
+    --card-foreground: 155 15% 95%;
+
+    --popover: 155 15% 8%;
+    --popover-foreground: 155 15% 95%;
+
+    --primary: 155 45% 55%;
+    --primary-foreground: 155 85% 8%;
+    --primary-light: 155 35% 65%;
+    --primary-dark: 155 65% 45%;
+
+    --secondary: 25 85% 65%;
+    --secondary-foreground: 155 85% 8%;
+    --secondary-light: 25 75% 75%;
+
+    --muted: 155 15% 12%;
+    --muted-foreground: 155 15% 65%;
+
+    --accent: 45 85% 75%;
+    --accent-foreground: 155 85% 8%;
+
+    --success: 142 75% 55%;
+    --success-foreground: 155 85% 8%;
+    
+    --warning: 35 85% 65%;
+    --warning-foreground: 155 85% 8%;
+
+    --destructive: 0 75% 65%;
+    --destructive-foreground: 155 85% 8%;
+
+    --border: 155 15% 15%;
+    --input: 155 15% 12%;
+    --ring: 155 45% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "cv03", "cv04", "cv11";
+  }
+
+  /* Aceternity UI animations will be added here */
+}
+
+/* Aceternity UI keyframes will be added here */
