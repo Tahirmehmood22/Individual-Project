@@ -13,14 +13,14 @@ import { motion } from "framer-motion";
 
 // Mock data for demonstration
 const mockPlayer = {
-  name: "Alex Johnson",
+  name: "Ram Charan Teja",
   age: 9,
   dateOfBirth: "2015-03-15",
   height: "130 cm",
   weight: "28 kg",
   location: "Stockholm, Sweden",
   level: "Rising Star",
-  avatar: ""
+  avatar: "https://content.tournamentsoftware.com/images/profile/3C3E88CA-FA0B-43B0-81E3-C5A8BC84F0EF/xlarge/9FB22704-6740-4049-A08B-D394C186C987.jpg?v=20250504153119"
 };
 
 const mockSkills = [

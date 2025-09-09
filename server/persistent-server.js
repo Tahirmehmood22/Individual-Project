@@ -53,7 +53,41 @@ function loadPlayerData() {
   }
 }
 
-// ...existing code...
+// Get player profile
+app.get('/api/player', (req, res) => {
+  const data = loadPlayerData();
+  res.json(data);
+});
+
+// Update player profile
+app.put('/api/player', (req, res) => {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to save profile.' });
+  }
+});
+
+// Create new player profile
+app.post('/api/player', (req, res) => {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
+    res.status(201).json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to create profile.' });
+  }
+});
+
+// Delete player profile
+app.delete('/api/player', (req, res) => {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify({}, null, 2));
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to delete profile.' });
+  }
+});
 
 // ...existing code...
 

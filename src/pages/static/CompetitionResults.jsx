@@ -2,52 +2,32 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Trophy, Medal, Award, Star } from "lucide-react";
-
-// Mock data for demonstration
+import { mockAchievements } from "@/mockData";
 const mockResults = [
   {
     id: 1,
-    date: "2024-01-13",
-    event: "Stockholm Junior Championship",
-    result: "1st Place",
-    category: "U10 Boys",
-    score: "21-15, 21-18",
-    achievement: "Gold Medal",
-    medalType: "gold"
-  },
-  {
-    id: 2,
-    date: "2024-01-06",
-    event: "Swedish Regional Tournament",
+    date: "2025-08-15",
+    event: "Junior League Finals",
     result: "2nd Place",
     category: "U10 Boys",
-    score: "19-21, 21-19, 18-21",
-    achievement: "Silver Medal",
+    score: "21-15, 21-18",
+    achievement: mockAchievements[0],
     medalType: "silver"
   },
   {
-    id: 3,
-    date: "2023-12-16",
-    event: "Winter Badminton Cup",
-    result: "3rd Place",
+    id: 2,
+    date: "2025-07-20",
+    event: "Summer Open",
+    result: "Quarterfinals",
     category: "U10 Boys",
-    score: "21-17, 15-21, 21-19",
-    achievement: "Bronze Medal",
+    score: "19-21, 21-19, 18-21",
+    achievement: mockAchievements[1],
     medalType: "bronze"
-  },
-  {
-    id: 4,
-    date: "2023-12-02",
-    event: "Local Club Championship",
-    result: "1st Place",
-    category: "U10 Boys",
-    score: "21-12, 21-14",
-    achievement: "Champion",
-    medalType: "gold"
   }
 ];
 
 export default function CompetitionResults() {
+  // const navigate = useNavigate();
   const [date, setDate] = useState("");
   const [event, setEvent] = useState("");
   const [result, setResult] = useState("");
@@ -63,22 +43,22 @@ export default function CompetitionResults() {
       case "gold":
         return (
           <div className="relative">
-            <Star className={`${baseClasses} text-yellow-500 drop-shadow-lg`} />
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full blur-sm opacity-30"></div>
+            <Star className={`${baseClasses} text-yellow-700 dark:text-yellow-400 drop-shadow-lg`} />
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-700 to-yellow-400 rounded-full blur-sm opacity-30"></div>
           </div>
         );
       case "silver":
         return (
           <div className="relative">
-            <Star className={`${baseClasses} text-gray-400 drop-shadow-lg`} />
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full blur-sm opacity-30"></div>
+            <Star className={`${baseClasses} text-gray-700 dark:text-gray-300 drop-shadow-lg`} />
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-300 rounded-full blur-sm opacity-30"></div>
           </div>
         );
       case "bronze":
         return (
           <div className="relative">
-            <Star className={`${baseClasses} text-amber-600 drop-shadow-lg`} />
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full blur-sm opacity-30"></div>
+            <Star className={`${baseClasses} text-amber-800 dark:text-amber-400 drop-shadow-lg`} />
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-800 to-amber-400 rounded-full blur-sm opacity-30"></div>
           </div>
         );
       default:

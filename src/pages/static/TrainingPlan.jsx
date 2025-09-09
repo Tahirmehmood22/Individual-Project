@@ -2,57 +2,24 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Target, Clock, TrendingUp, CheckCircle, PlayCircle } from "lucide-react";
+import { mockPlayer } from "@/mockData";
 
-// Mock data for training plans
 const mockTrainingPlans = [
   {
     id: 1,
     title: "Advanced Technique Mastery",
-    description: "Focus on perfecting advanced badminton techniques including drop shots, smashes, and defensive plays",
+    description: `Focus on perfecting advanced badminton techniques for ${mockPlayer.name}`,
     duration: "8 weeks",
     difficulty: "Advanced",
     focus: ["Forehand Techniques", "Backhand Mastery", "Footwork"],
     progress: 75,
     status: "In Progress",
-    startDate: "2024-01-15",
+    startDate: "2025-08-01",
     sessions: [
       { day: "Monday", focus: "Forehand Clear & Drop", duration: "90 min" },
       { day: "Wednesday", focus: "Backhand Techniques", duration: "75 min" },
       { day: "Friday", focus: "Footwork & Agility", duration: "60 min" },
       { day: "Saturday", focus: "Match Practice", duration: "120 min" }
-    ]
-  },
-  {
-    id: 2,
-    title: "Beginner Foundation",
-    description: "Build solid fundamentals for new players with basic strokes and court movement",
-    duration: "6 weeks",
-    difficulty: "Beginner",
-    focus: ["Basic Strokes", "Court Movement", "Serving"],
-    progress: 100,
-    status: "Completed",
-    startDate: "2023-12-01",
-    sessions: [
-      { day: "Tuesday", focus: "Basic Forehand", duration: "60 min" },
-      { day: "Thursday", focus: "Basic Backhand", duration: "60 min" },
-      { day: "Sunday", focus: "Serving Practice", duration: "45 min" }
-    ]
-  },
-  {
-    id: 3,
-    title: "Competition Preparation",
-    description: "Intensive training program designed to prepare for upcoming tournaments",
-    duration: "4 weeks",
-    difficulty: "Advanced",
-    focus: ["Match Strategy", "Mental Toughness", "Endurance"],
-    progress: 25,
-    status: "In Progress",
-    startDate: "2024-01-20",
-    sessions: [
-      { day: "Monday", focus: "Strategy & Tactics", duration: "90 min" },
-      { day: "Tuesday", focus: "Endurance Training", duration: "75 min" },
-      { day: "Thursday", focus: "Mental Preparation", duration: "60 min" },
-      { day: "Saturday", focus: "Competition Simulation", duration: "120 min" }
     ]
   }
 ];

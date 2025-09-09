@@ -1,12 +1,12 @@
 {
-  "name": "Alex Johnson",
-  "age": 9,
+  "name": "Ram Charan Teja",
+  "age": "11",
   "dateOfBirth": "2015-03-15",
   "height": "130 cm",
   "weight": "28 kg",
   "location": "Stockholm, Sweden",
   "level": "Rising Star",
-  "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
+  "avatar": "https://content.tournamentsoftware.com/images/profile/3C3E88CA-FA0B-43B0-81E3-C5A8BC84F0EF/xlarge/9FB22704-6740-4049-A08B-D394C186C987.jpg?v=20250504153119",
   "skills": {
     "smash": 7,
     "serve": 6,
@@ -21,15 +21,35 @@
     "Most Improved Player 2024"
   ],
   "scheduledTrainings": [
-    { "date": "2025-09-05", "details": "Endurance drills and footwork practice." },
-    { "date": "2025-09-10", "details": "Smash technique and net play session." }
+    {
+      "date": "2025-09-05",
+      "details": "Endurance drills and footwork practice."
+    },
+    {
+      "date": "2025-09-10",
+      "details": "Smash technique and net play session."
+    }
   ],
   "practiceSessions": [
-    { "date": "2025-08-28", "notes": "Practiced drop shots and improved accuracy." },
-    { "date": "2025-08-30", "notes": "Worked on serve consistency and speed." }
+    {
+      "date": "2025-08-28",
+      "notes": "Practiced drop shots and improved accuracy."
+    },
+    {
+      "date": "2025-08-30",
+      "notes": "Worked on serve consistency and speed."
+    }
   ],
   "competitionResults": [
-    { "date": "2025-08-15", "event": "Junior League Finals", "result": "2nd Place" },
-    { "date": "2025-07-20", "event": "Summer Open", "result": "Quarterfinals" }
+    {
+      "date": "2025-08-15",
+      "event": "Junior League Finals",
+      "result": "2nd Place"
+    },
+    {
+      "date": "2025-07-20",
+      "event": "Summer Open",
+      "result": "Quarterfinals"
+    }
   ]
 }
