@@ -6,7 +6,7 @@ import { PhysicalStrength } from "./PhysicalStrength";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Trophy, Target, Calendar, TrendingUp, Zap, Star, Award, Sparkles } from "lucide-react";
+import { Trophy, Target, Calendar, TrendingUp, Zap, Star, Award, Sparkles, Sun, Moon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/badminton-hero-enhanced.jpg";
 import { motion } from "framer-motion";
@@ -65,9 +65,13 @@ const mockMonthlyData = [
   { period: "Aug", skillLevel: 85, physicalFitness: 82, matchPerformance: 84 },
 ];
 
+
+import { useTheme } from "next-themes";
+
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [player, setPlayer] = useState(mockPlayer);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     // Try to fetch from backend, fallback to mock data
@@ -82,6 +86,16 @@ export const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-primary/5">
+      {/* Theme Toggle Icon Bottom Right */}
+  <div className="fixed bottom-3 right-3 z-50">
+        <span
+          className="cursor-pointer p-3 rounded-full bg-white/80 dark:bg-black/80 shadow-lg border border-muted flex items-center justify-center hover:scale-110 transition-all"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          aria-label="Toggle theme"
+        >
+          {theme === "dark" ? <Sun className="w-6 h-6 text-yellow-500" /> : <Moon className="w-6 h-6 text-blue-700" />}
+        </span>
+      </div>
       {/* Enhanced Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-dark via-primary to-secondary gradient-shift"></div>
@@ -298,11 +312,11 @@ export const Dashboard = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-                      {/* Left Column */}
-            <div className="space-y-8">
-              <PlayerProfile player={player} />
-              <PhysicalStrength metrics={mockPhysicalMetrics} />
-            </div>
+          {/* Left Column */}
+          <div className="space-y-8">
+            <PlayerProfile player={player} />
+            <PhysicalStrength metrics={mockPhysicalMetrics} />
+          </div>
 
           {/* Center Column */}
           <div className="space-y-8">
@@ -376,3 +390,5 @@ export const Dashboard = () => {
     </div>
   );
 };
+
+export default Dashboard;

@@ -1,4 +1,5 @@
 
+
 import { mockAchievements } from "@/mockData";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Trophy, Medal, Award, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { t } from "@/lib/i18n";
+import { useLanguage } from "@/context/LanguageContext";
 
 const iconMap = {
   champion: <Trophy className="text-yellow-700 dark:text-yellow-400" size={32} />,
@@ -19,10 +22,13 @@ const badgeMap = {
   milestone: <Badge className="bg-blue-800 text-white dark:bg-blue-400 dark:text-black">Milestone</Badge>,
 };
 
+
 export default function Achievements() {
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
+  const { language } = useLanguage();
+  const langCode = language === "Swedish" ? "sv" : "en";
 
   const filteredAchievements = mockAchievements.filter((ach) => {
     const matchesType = filter ? ach.type === filter : true;
@@ -33,24 +39,24 @@ export default function Achievements() {
   return (
     <div className="container mx-auto px-2 py-8">
       <Button variant="outline" className="mb-4" onClick={() => navigate(-1)}>
-        ← Back
+         {t("back", langCode)}
       </Button>
-      <h1 className="text-3xl font-bold mb-6">Achievements</h1>
+      <h1 className="text-3xl font-bold mb-6">{t("achievements", langCode)}</h1>
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <select
           className="border rounded px-3 py-2 w-full md:w-48"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
-          <option value="">All Types</option>
-          <option value="champion">Champion</option>
-          <option value="award">Award</option>
-          <option value="milestone">Milestone</option>
+          <option value="">{t("all_types", langCode)}</option>
+          <option value="champion">{t("champion", langCode)}</option>
+          <option value="award">{t("award", langCode)}</option>
+          <option value="milestone">{t("milestone", langCode)}</option>
         </select>
         <input
           type="text"
           className="border rounded px-3 py-2 w-full md:w-64"
-          placeholder="Search achievements..."
+          placeholder={t("search_achievements", langCode)}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -73,14 +79,14 @@ export default function Achievements() {
               <div className="font-semibold text-lg text-center mb-1 text-black dark:text-white">{ach.name}</div>
               <div className="text-sm text-center mb-2 text-gray-800 dark:text-gray-200">{ach.description}</div>
               <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs rounded px-2 py-1 pointer-events-none">
-                Type: {ach.type.charAt(0).toUpperCase() + ach.type.slice(1)}
+                {t("type", langCode)}: {t(ach.type, langCode)}
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
       {filteredAchievements.length === 0 && (
-        <div className="text-center text-muted-foreground py-8">No achievements found.</div>
+        <div className="text-center text-muted-foreground py-8">{t("no_achievements_found", langCode)}</div>
       )}
     </div>
   );
