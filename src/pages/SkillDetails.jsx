@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, Target, Bolt, Brain, Star, Info } from "lucide-react";
+import { useSport } from "../context/SportContext";
 
 // Mock skill history for demonstration
 const skillHistory = {
@@ -50,6 +51,7 @@ const SkillEditForm = ({ skill, onSave, onCancel }) => {
 const SkillDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { currentSport } = useSport();
   const [editIdx, setEditIdx] = useState(null);
   const [skills, setSkills] = useState(location.state?.skills || []);
   const [showInfo, setShowInfo] = useState(null);
@@ -84,7 +86,7 @@ const SkillDetails = () => {
             <TrendingUp className="w-6 h-6 text-success" />
             Skill Development Details
           </CardTitle>
-          <CardDescription>Detailed view of your badminton skills progress</CardDescription>
+          <CardDescription>Detailed view of your {currentSport} skills progress</CardDescription>
         </CardHeader>
         <CardContent>
           {skills.map((skill, idx) => {

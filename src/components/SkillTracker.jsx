@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Target, Zap, Award, Brain, Flame, Bolt } from "lucide-react";
+import { useSport } from "../context/SportContext";
 
 export const SkillTracker = ({ skills }) => {
   const navigate = useNavigate();
+  const { currentSport } = useSport();
   const getSkillIcon = (category) => {
     switch (category) {
       case "technique": return <Target className="w-4 h-4" />;
@@ -57,7 +59,7 @@ export const SkillTracker = ({ skills }) => {
                 </div>
                 Skill Development
               </CardTitle>
-              <CardDescription>Track your badminton skills progress</CardDescription>
+              <CardDescription>Track your {currentSport} skills progress</CardDescription>
             </div>
             <Button
               variant="skill"

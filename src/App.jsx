@@ -1,3 +1,5 @@
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,7 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Settings from "./pages/static/Settings";
 import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { Suspense, lazy } from "react";
+import { SportProvider } from "@/context/SportContext";
+import { Suspense, lazy, useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -33,54 +36,115 @@ const CompetitionResults = lazy(() => import("./pages/static/CompetitionResults"
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <LanguageProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TooltipProvider>
-            <ErrorBoundary>
-              <div className="flex min-h-screen">
-                <Sidebar
-                  isLoggedIn={true}
-                  onLogout={() => {}}
-                  skills={[]}
-                />
-                <main className="flex-1">
-                  <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/achievements" element={<Achievements />} />
-                      <Route path="/goals" element={<Goals />} />
-                      <Route path="/training" element={<ScheduleTraining />} />
-                      <Route path="/settings" element={<Settings />} />
-                      <Route path="/practice" element={<RecordPractice />} />
-                      <Route path="/results" element={<CompetitionResults />} />
-                      <Route path="/assessment" element={<Assessment />} />
-                      <Route path="/new-assessment" element={<NewAssessment />} />
-                      <Route path="/profile/edit" element={<EditProfile />} />
-                      <Route path="/schedule-training" element={<ScheduleTraining />} />
-                      <Route path="/record-practice" element={<RecordPractice />} />
-                      <Route path="/competition-results" element={<CompetitionResults />} />
-                      <Route path="/training-plan" element={<TrainingPlan />} />
-                      <Route path="/set-goals" element={<SetGoals />} />
-                      <Route path="/analytics/daily" element={<AnalyticsDaily />} />
-                      <Route path="/analytics/weekly" element={<AnalyticsWeekly />} />
-                      <Route path="/analytics/monthly" element={<AnalyticsMonthly />} />
-                      <Route path="/skills/details" element={<SkillDetails />} />
-                      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Suspense>
-                </main>
-              </div>
-            </ErrorBoundary>
-          </TooltipProvider>
-        </ThemeProvider>
-      </LanguageProvider>
-    </BrowserRouter>
-  </QueryClientProvider>
-);
+// Check if user is authenticated
+const isAuthenticated = () => {
+  return localStorage.getItem("isLoggedIn") === "true";
+};
+
+const App = () => {
+  const [authenticated, setAuthenticated] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true";
+  });
+
+  // Listen for authentication changes
+  useEffect(() => {
+    const checkAuth = () => {
+      const isAuth = localStorage.getItem("isLoggedIn") === "true";
+      setAuthenticated(isAuth);
+    };
+
+    // Check authentication on mount
+    checkAuth();
+
+    // Listen for storage changes (for cross-tab synchronization)
+    window.addEventListener('storage', checkAuth);
+    
+    // Listen for custom authentication events
+    window.addEventListener('authChange', checkAuth);
+
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('authChange', checkAuth);
+    };
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <SportProvider>
+          <LanguageProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <TooltipProvider>
+                <ErrorBoundary>
+                  <Routes>
+                    {/* If not authenticated, show login/signup pages */}
+                    {!authenticated && (
+                      <>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="*" element={<Login />} /> {/* Redirect all other routes to login */}
+                      </>
+                    )}
+                    
+                    {/* If authenticated, show protected app with sidebar */}
+                    {authenticated && (
+                      <Route path="*" element={
+                        <div className="flex min-h-screen">
+                          <Sidebar
+                            isLoggedIn={true}
+                            onLogout={() => {
+                              localStorage.removeItem("isLoggedIn");
+                              localStorage.removeItem("currentUser");
+                              localStorage.removeItem("userData");
+                              localStorage.removeItem("userSport");
+                              // Trigger authentication change event
+                              window.dispatchEvent(new Event('authChange'));
+                              // Small delay to ensure state updates before navigation
+                              setTimeout(() => {
+                                window.location.href = '/login';
+                              }, 100);
+                            }}
+                            skills={[]}
+                          />
+                          <main className="flex-1">
+                            <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+                              <Routes>
+                                <Route path="/" element={<Index />} />
+                                <Route path="/achievements" element={<Achievements />} />
+                                <Route path="/goals" element={<Goals />} />
+                                <Route path="/training" element={<ScheduleTraining />} />
+                                <Route path="/settings" element={<Settings />} />
+                                <Route path="/practice" element={<RecordPractice />} />
+                                <Route path="/results" element={<CompetitionResults />} />
+                                <Route path="/assessment" element={<Assessment />} />
+                                <Route path="/new-assessment" element={<NewAssessment />} />
+                                <Route path="/profile/edit" element={<EditProfile />} />
+                                <Route path="/schedule-training" element={<ScheduleTraining />} />
+                                <Route path="/record-practice" element={<RecordPractice />} />
+                                <Route path="/competition-results" element={<CompetitionResults />} />
+                                <Route path="/training-plan" element={<TrainingPlan />} />
+                                <Route path="/set-goals" element={<SetGoals />} />
+                                <Route path="/analytics/daily" element={<AnalyticsDaily />} />
+                                <Route path="/analytics/weekly" element={<AnalyticsWeekly />} />
+                                <Route path="/analytics/monthly" element={<AnalyticsMonthly />} />
+                                <Route path="/skills/details" element={<SkillDetails />} />
+                                <Route path="*" element={<NotFound />} />
+                              </Routes>
+                            </Suspense>
+                          </main>
+                        </div>
+                      } />
+                    )}
+                  </Routes>
+                </ErrorBoundary>
+              </TooltipProvider>
+            </ThemeProvider>
+          </LanguageProvider>
+        </SportProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
 

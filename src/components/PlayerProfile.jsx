@@ -4,9 +4,29 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Edit, MapPin, Calendar, Ruler, Weight, Star, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useSport } from "../context/SportContext";
 
 export const PlayerProfile = ({ player }) => {
   const navigate = useNavigate();
+  const { currentSport, getSportConfig } = useSport();
+  const sportConfig = getSportConfig(currentSport);
+
+  // Show loading state if player data is not available yet
+  if (!player) {
+    return (
+      <Card className="hover:shadow-2xl transition-all duration-500 performance-pulse border-0 bg-gradient-to-br from-card to-primary/5">
+        <CardContent className="text-center p-8">
+          <div className="animate-pulse space-y-4">
+            <div className="w-20 h-20 bg-muted rounded-full mx-auto"></div>
+            <div className="h-4 bg-muted rounded w-3/4 mx-auto"></div>
+            <div className="h-3 bg-muted rounded w-1/2 mx-auto"></div>
+          </div>
+          <p className="text-muted-foreground mt-4">Loading profile...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="hover:shadow-2xl transition-all duration-500 performance-pulse border-0 bg-gradient-to-br from-card to-primary/5">
       <CardHeader className="text-center relative">
@@ -38,7 +58,7 @@ export const PlayerProfile = ({ player }) => {
           
           <CardTitle className="text-2xl text-foreground mb-2">{player.name}</CardTitle>
           <CardDescription className="text-muted-foreground mb-4">
-            🏸 Badminton Athlete • {player.level}
+            {sportConfig.icon} {sportConfig.name} Athlete • {player.level}
           </CardDescription>
           
           <div className="flex justify-center gap-2">
