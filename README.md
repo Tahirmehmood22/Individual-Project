@@ -1,4 +1,4 @@
-# � Multi-Sport Skills Tracker
+# 🏸 Multi-Sport Skills Tracker
 
 Hey there! Welcome to my sports tracking application that I built to help athletes track their progress across multiple racquet sports. This isn't just another generic fitness app - it's specifically designed for badminton, tennis, table tennis, squash, and padel players who want to seriously improve their game.
 
@@ -18,15 +18,18 @@ Choose from 5 different sports when you sign up:
 
 ### User Authentication & Profiles
 - Create your own account with personalized profile
-- Each user gets their sport-specific dashboard
-- Profile data persists between sessions
-- Secure login system with multiple user support
+- Complete a guided 4-step profile setup with skill assessment
+- Each user gets their sport-specific dashboard with personalized data
+- Profile data persists between sessions using localStorage
+- Secure signup system with form validation
 
 ### Skills Tracking System
-Every sport has three categories of skills:
+Every sport has three categories of skills, and you can rate yourself from 0-10 on each:
 - **Technique Skills** - Sport-specific shots and movements
-- **Physical Skills** - Fitness, agility, and strength
+- **Physical Skills** - Fitness, agility, and strength  
 - **Mental Skills** - Strategy, focus, and game awareness
+
+The app tracks your progress over time and shows you personalized achievements based on your actual skill levels.
 
 ### Performance Analytics
 - Visual progress charts showing your improvement over time
@@ -48,20 +51,16 @@ Every sport has three categories of skills:
 
 ## 🚀 Getting Started
 
-### Demo Access (Quick Start)
-Want to try it out right away? Use these demo credentials:
-
-**Username:** `player`  
-**Password:** `badminton`
-
-This will log you in as Ram Charan Teja (a young badminton player) so you can explore all the features immediately.
-
 ### Creating Your Own Account
-1. Click "Sign up here" on the login page
-2. Fill in your details (name, email, age, location)
+1. Click "Get Started" on the homepage
+2. Fill in your details (name, email, age, location) 
 3. Choose your sport from the 5 available options
-4. Create a secure password (the app checks strength)
-5. Start tracking your progress!
+4. Complete the 4-step profile wizard:
+   - Personal information
+   - Sport selection and experience level
+   - Skill assessment (rate yourself 0-10 on each skill)
+   - Goals and training preferences
+5. Start tracking your progress with your personalized dashboard!
 
 ### Installation & Setup
 
@@ -81,7 +80,7 @@ npm install
 npm run dev
 ```
 
-The app will open in your browser at `http://localhost:5173`
+The app will open in your browser at `http://localhost:5173` (or `http://localhost:5174` if 5173 is busy)
 
 ### Project Structure
 ```
@@ -92,10 +91,10 @@ src/
 │   ├── SkillTracker.jsx # Skills monitoring
 │   └── PlayerProfile.jsx # User profile display
 ├── pages/              # Different app pages
-│   ├── Login.jsx       # Authentication
-│   ├── SignUp.jsx      # User registration
+│   ├── Index.jsx       # Homepage
+│   ├── CompleteProfile.jsx # Profile setup wizard
 │   ├── analytics/      # Performance charts
-│   └── static/         # Training, goals, etc.
+│   └── static/         # Training, goals, achievements, etc.
 ├── context/            # Global state management
 │   ├── SportContext.jsx # Multi-sport logic
 │   └── LanguageContext.jsx # Internationalization
@@ -114,11 +113,13 @@ src/
 - **Recharts** - Easy-to-use charts for performance visualization
 
 ### Data Storage
-Currently using localStorage for simplicity, but the architecture supports easy migration to a backend database. User data includes:
-- Personal profile information
-- Sport preferences and progress
-- Skill levels and improvement tracking
-- Training logs and goals
+Currently using localStorage for simplicity, which means your data stays on your device. The app remembers:
+- Your personal profile and sport preference
+- Skill levels and progress tracking
+- Achievements and goals you've unlocked
+- Training preferences and assessment results
+
+The architecture is designed to easily migrate to a backend database when needed.
 
 ### Responsive Design
 The app works great on:
@@ -130,36 +131,43 @@ The app works great on:
 
 ### First Time Setup
 1. **Sign Up** - Create your account and pick your sport
-2. **Explore Dashboard** - Get familiar with your personalized layout
-3. **Set Goals** - Define what you want to achieve
-4. **Take Assessment** - Establish your current skill baseline
-5. **Start Training** - Log your practice sessions
+2. **Complete Profile** - Go through the 4-step guided setup
+3. **Rate Your Skills** - Be honest about your current level (0-10 scale)
+4. **Explore Dashboard** - Check out your personalized layout with real data
+5. **Set Goals** - The app suggests goals based on your skill levels
 
 ### Daily Usage
-- **Check Progress** - Review your improvement charts
-- **Log Training** - Record what you practiced
-- **Update Skills** - Mark improvements in technique/fitness
-- **Review Goals** - See how close you are to your targets
+- **Check Progress** - See your personalized performance data
+- **Review Achievements** - View badges you've earned based on your skills
+- **Update Skills** - Bump up your ratings as you improve
+- **Set New Goals** - Keep challenging yourself with realistic targets
 
 ### Features Deep Dive
 - **Analytics Page** - Switch between daily, weekly, monthly views
-- **Training Plans** - Create structured improvement programs  
-- **Achievement System** - Unlock badges as you progress
-- **Competition Tracking** - Log tournament results and medals
+- **Personalized Dashboard** - Shows stats based on YOUR actual skill levels
+- **Achievement System** - Unlock badges based on your real progress
+- **Smart Goals** - App suggests realistic goals based on your current abilities
+- **Multi-Sport Support** - Switch between sports with your data intact
 
 ## 🐛 Known Issues & Future Plans
 
-### Current Limitations
-- Data is stored locally (working on cloud sync)
-- Single language support (English only for now)
-- No social features yet (planned for next version)
+### Current Features
+- User profile creation with guided setup
+- 0-10 skill rating system for all sports
+- Personalized dashboard with real user data
+- Achievement system based on actual skill levels
+- Smart goal suggestions
+- Dark/light theme toggle
+- Fully responsive design
 
 ### Planned Features
-- Coach/trainer accounts
+- Training session logging and tracking
+- Progress charts showing improvement over time  
+- Coach/trainer accounts and sharing
 - Training video integration
-- Social sharing of achievements
+- Social features and community
 - Mobile app version
-- Advanced analytics with AI insights
+- Cloud sync for multi-device access
 
 ## 🤝 Contributing
 
@@ -181,8 +189,11 @@ Hope you enjoy using it as much as I enjoyed building it! 🚀
 ---
 
 **Last Updated:** September 2025  
-**Version:** 2.0.0 (Multi-Sport Edition)
-- Ready for backend integration
+**Version:** 2.1.0 (User-Personalized Edition)
+- Complete profile setup wizard
+- Personalized achievements and goals
+- 0-10 skill rating system
+- Real user data throughout the app
 
 ## 🚀 Quick Start
 
@@ -209,7 +220,7 @@ npm run dev
 ```
 
 4. **Open your browser**
-Navigate to `http://localhost:5173` to view the application.
+Navigate to `http://localhost:5173` (or `http://localhost:5174` if port 5173 is busy) to view the application.
 
 ### Backend Setup
 
