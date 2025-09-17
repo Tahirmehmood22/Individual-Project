@@ -1,10 +1,10 @@
 
 
-import { mockAchievements } from "@/mockData";
+import { generateUserAchievements } from "@/utils/userDataUtils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Trophy, Medal, Award, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { t } from "@/lib/i18n";
@@ -27,10 +27,19 @@ export default function Achievements() {
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [achievements, setAchievements] = useState([]);
   const { language } = useLanguage();
   const langCode = language === "Swedish" ? "sv" : "en";
 
-  const filteredAchievements = mockAchievements.filter((ach) => {
+  useEffect(() => {
+    // Load user data and generate achievements
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const userSkills = JSON.parse(localStorage.getItem('userSkills') || '[]');
+    const userAchievements = generateUserAchievements(currentUser, userSkills);
+    setAchievements(userAchievements);
+  }, []);
+
+  const filteredAchievements = achievements.filter((ach) => {
     const matchesType = filter ? ach.type === filter : true;
     const matchesSearch = ach.name.toLowerCase().includes(search.toLowerCase());
     return matchesType && matchesSearch;

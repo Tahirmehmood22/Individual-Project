@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LocalStorage Debug</title>
+</head>
+<body>
+    <h1>LocalStorage Debug</h1>
+    <div id="debug-info"></div>
+    
+    <script>
+        function displayLocalStorage() {
+            const debugDiv = document.getElementById('debug-info');
+            debugDiv.innerHTML = '';
+            
+            // Create a list of all localStorage items
+            const items = [
+                'currentUser',
+                'userData', 
+                'profileCompleted',
+                'currentSport',
+                'registeredUsers'
+            ];
+            
+            items.forEach(key => {
+                const value = localStorage.getItem(key);
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <h3>${key}:</h3>
+                    <pre style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
+                        ${value ? JSON.stringify(JSON.parse(value), null, 2) : 'null'}
+                    </pre>
+                `;
+                debugDiv.appendChild(div);
+            });
+            
+            // Add a button to clear all localStorage
+            const clearButton = document.createElement('button');
+            clearButton.textContent = 'Clear All localStorage';
+            clearButton.style.cssText = 'background: red; color: white; padding: 10px; margin: 10px; border: none; cursor: pointer;';
+            clearButton.onclick = () => {
+                if (confirm('Are you sure you want to clear all localStorage? This will remove all user data.')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            };
+            debugDiv.appendChild(clearButton);
+            
+            // Add a button to clear only user data
+            const clearUsersButton = document.createElement('button');
+            clearUsersButton.textContent = 'Clear Only Users';
+            clearUsersButton.style.cssText = 'background: orange; color: white; padding: 10px; margin: 10px; border: none; cursor: pointer;';
+            clearUsersButton.onclick = () => {
+                if (confirm('Clear all registered users? This will allow you to create new accounts.')) {
+                    localStorage.removeItem('registeredUsers');
+                    localStorage.removeItem('userData');
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('profileCompleted');
+                    location.reload();
+                }
+            };
+            debugDiv.appendChild(clearUsersButton);
+        }
+        
+        displayLocalStorage();
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, startTransition } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { sportConfigs } from "@/context/SportContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +23,7 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   // Available sports with their details
@@ -103,95 +105,196 @@ export default function SignUp() {
 
   const handleSignUp = (e) => {
     e.preventDefault();
+    console.log('SignUp - Form submitted');
+    console.log('SignUp - Form data at start:', formData);
+    console.log('SignUp - Password strength:', passwordStrength);
+    
     setError("");
-    
-    // Email validation
-    if (!isValidEmail(formData.email)) {
-      setError("Please enter a valid email address");
-      return;
-    }
-    
-    // Password validation
-    if (passwordStrength.strength < 3) {
-      setError("Password is too weak. Please make it stronger.");
-      return;
-    }
-    
-    // Basic validation
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-    
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long");
-      return;
-    }
+    setSuccess("");
+    setIsLoading(true);
 
-    if (!formData.username || !formData.email || !formData.fullName || !formData.sport) {
-      setError("Please fill in all required fields");
-      return;
-    }
+    try {
+      console.log('SignUp - Starting validation...');
+      
+      // Email validation
+      console.log('SignUp - Checking email validity:', formData.email);
+      if (!isValidEmail(formData.email)) {
+        console.log('SignUp - Email validation failed');
+        setError("Please enter a valid email address");
+        setIsLoading(false);
+        return;
+      }
+      console.log('SignUp - Email validation passed');
+      
+      // Password validation
+      console.log('SignUp - Checking password strength:', passwordStrength);
+      if (passwordStrength.strength < 3) {
+        console.log('SignUp - Password strength too low:', passwordStrength.strength);
+        setError("Password is too weak. Please make it stronger.");
+        setIsLoading(false);
+        return;
+      }
+      console.log('SignUp - Password strength validation passed');
+      
+      // Basic validation
+      console.log('SignUp - Checking password match...');
+      if (formData.password !== formData.confirmPassword) {
+        console.log('SignUp - Passwords do not match');
+        setError("Passwords do not match");
+        setIsLoading(false);
+        return;
+      }
+      console.log('SignUp - Password match validation passed');
+      
+      console.log('SignUp - Checking password length...');
+      if (formData.password.length < 6) {
+        console.log('SignUp - Password too short:', formData.password.length);
+        setError("Password must be at least 6 characters long");
+        setIsLoading(false);
+        return;
+      }
+      console.log('SignUp - Password length validation passed');
 
-    // Save user data including sport preference
-    console.log('SignUp - Saving sport:', formData.sport);
-    console.log('SignUp - Form data:', formData);
-    
-    // Create complete user profile
-    const userProfile = {
-      username: formData.username.trim(),
-      email: formData.email.trim(),
-      fullName: formData.fullName.trim(),
-      age: formData.age,
-      location: formData.location.trim(),
-      sport: formData.sport,
-      password: formData.password, // Don't trim password as it might be intentional
-      createdAt: new Date().toISOString(),
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.username.trim()}`,
-      level: "Beginner"
-    };
-    
-    // Get existing users from localStorage or create empty array
-    const existingUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
-    
-    // Check if username already exists (case insensitive)
-    const userExists = existingUsers.some(user => 
-      user.username.toLowerCase() === formData.username.trim().toLowerCase()
-    );
-    if (userExists) {
-      setError("Username already exists. Please choose a different username.");
-      return;
-    }
-    
-    // Add new user to the list
-    existingUsers.push(userProfile);
-    
-    // Store updated users list
-    localStorage.setItem("registeredUsers", JSON.stringify(existingUsers));
-    
-    console.log('SignUp - Data saved to localStorage');
-    console.log('SignUp - Total registered users:', existingUsers.length);
-    console.log('SignUp - New user stored:', {
-      username: userProfile.username,
-      sport: userProfile.sport,
-      hasPassword: !!userProfile.password
-    });
-    
-    // Verify the data was stored correctly
-    const verifyStorage = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
-    console.log('SignUp - Verification - users in storage:', verifyStorage.length);
-    const justAdded = verifyStorage.find(u => u.username === userProfile.username);
-    console.log('SignUp - Verification - just added user found:', !!justAdded);
-    
-    // Set current user data for immediate use
-    localStorage.setItem("userSport", formData.sport);
-    localStorage.setItem("userData", JSON.stringify(userProfile));
+      console.log('SignUp - Checking required fields...');
+      if (!formData.username || !formData.email || !formData.fullName || !formData.sport) {
+        console.log('SignUp - Missing required fields:', {
+          username: !!formData.username,
+          email: !!formData.email,
+          fullName: !!formData.fullName,
+          sport: !!formData.sport
+        });
+        setError("Please fill in all required fields");
+        setIsLoading(false);
+        return;
+      }
+      console.log('SignUp - Required fields validation passed');
 
-    // Mock sign up success
-    setSuccess(`${selectedSport.name} tracker account created successfully! Redirecting to login...`);
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+      // Save user data including sport preference
+      console.log('SignUp - Saving sport:', formData.sport);
+      console.log('SignUp - Form data:', formData);
+      console.log('SignUp - sportConfigs available:', !!sportConfigs);
+      console.log('SignUp - sportConfigs keys:', Object.keys(sportConfigs));
+      
+      // Create complete user profile
+      console.log('SignUp - Creating user profile...');
+      const userProfile = {
+        username: formData.username.trim(),
+        email: formData.email.trim(),
+        fullName: formData.fullName.trim(),
+        age: formData.age,
+        location: formData.location.trim(),
+        sport: formData.sport,
+        password: formData.password, // Don't trim password as it might be intentional
+        createdAt: new Date().toISOString(),
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.username.trim()}`,
+        level: "Beginner",
+        // Initialize user skills with 0 values based on selected sport
+        skills: (() => {
+          console.log('SignUp - Initializing skills for sport:', formData.sport);
+          const sportConfig = sportConfigs[formData.sport];
+          console.log('SignUp - Sport config found:', !!sportConfig);
+          console.log('SignUp - Sport config skills:', sportConfig?.skills);
+          
+          const initialSkills = {};
+          if (sportConfig?.skills) {
+            sportConfig.skills.forEach(skill => {
+              initialSkills[skill.name] = 0;
+            });
+          }
+          console.log('SignUp - Initial skills created:', initialSkills);
+          return initialSkills;
+        })(),
+        // Additional profile fields with default values
+        height: "Not specified",
+        weight: "Not specified", 
+        dateOfBirth: "Not specified",
+        skillLevel: "beginner",
+        experienceYears: 0,
+        units: "metric",
+        profileCompleted: false
+      };
+      
+      console.log('SignUp - User profile created:', userProfile);
+      console.log('SignUp - User profile created:', userProfile);
+      
+      // Get existing users from localStorage or create empty array
+      console.log('SignUp - Getting existing users...');
+      const existingUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+      console.log('SignUp - Existing users count:', existingUsers.length);
+      
+      // Check if username already exists (case insensitive)
+      console.log('SignUp - Checking for duplicate username...');
+      const userExists = existingUsers.some(user => 
+        user.username.toLowerCase() === formData.username.trim().toLowerCase()
+      );
+      if (userExists) {
+        console.log('SignUp - Username already exists');
+        setError("Username already exists. Please choose a different username.");
+        setIsLoading(false);
+        return;
+      }
+      
+      // Add new user to the list
+      console.log('SignUp - Adding user to existing users list...');
+      existingUsers.push(userProfile);
+      
+      // Store updated users list
+      localStorage.setItem("registeredUsers", JSON.stringify(existingUsers));
+      
+      console.log('SignUp - Data saved to localStorage');
+      console.log('SignUp - Total registered users:', existingUsers.length);
+      console.log('SignUp - New user stored:', {
+        username: userProfile.username,
+        sport: userProfile.sport,
+        hasPassword: !!userProfile.password
+      });
+      
+      // Verify the data was stored correctly
+      const verifyStorage = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+      console.log('SignUp - Verification - users in storage:', verifyStorage.length);
+      const justAdded = verifyStorage.find(u => u.username === userProfile.username);
+      console.log('SignUp - Verification - just added user found:', !!justAdded);
+      
+      // Set current user data for immediate use and proper userData structure
+      localStorage.setItem("userSport", formData.sport);
+      
+      // Create userData structure for multiple users
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+      userData[userProfile.username] = userProfile;
+      localStorage.setItem("userData", JSON.stringify(userData));
+      
+      // Set current user as the newly registered user
+      localStorage.setItem("currentUser", JSON.stringify(userProfile));
+      
+      // Set authentication status
+      localStorage.setItem("isLoggedIn", "true");
+      
+      // Clear profile completion flags for new user
+      localStorage.removeItem("profileCompleted");
+      localStorage.removeItem("profileSkipped");
+      
+      // Trigger authentication change event
+      window.dispatchEvent(new Event('authChange'));
+
+      // Success message and redirect to profile completion
+      setSuccess(`${selectedSport.name} tracker account created successfully! Setting up your profile...`);
+      
+      setTimeout(() => {
+        console.log('SignUp - Navigating to profile completion');
+        startTransition(() => {
+          navigate("/complete-profile");
+        });
+      }, 1500);
+      
+    } catch (error) {
+      console.error('SignUp - Error during signup:', error);
+      console.error('SignUp - Error message:', error.message);
+      console.error('SignUp - Error stack:', error.stack);
+      console.error('SignUp - Form data at error:', formData);
+      setError(`An error occurred during signup: ${error.message}. Please try again.`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -561,10 +664,19 @@ export default function SignUp() {
                 <Button 
                   type="submit" 
                   className={`w-full bg-gradient-to-r ${selectedSport.color} hover:opacity-90 text-white font-medium py-3 transition-all duration-200 hover:scale-105`}
-                  disabled={success}
+                  disabled={success || isLoading}
                 >
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Start {selectedSport.name} Journey
+                  {isLoading ? (
+                    <>
+                      <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Creating Account...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Start {selectedSport.name} Journey
+                    </>
+                  )}
                 </Button>
               </form>
 

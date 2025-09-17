@@ -59,11 +59,24 @@ export default function Login() {
         sport: authenticatedUser.sport,
         avatar: authenticatedUser.avatar,
         level: authenticatedUser.level,
-        createdAt: authenticatedUser.createdAt
+        createdAt: authenticatedUser.createdAt,
+        // Include all profile fields from the authenticated user
+        height: authenticatedUser.height,
+        weight: authenticatedUser.weight,
+        dateOfBirth: authenticatedUser.dateOfBirth,
+        skillLevel: authenticatedUser.skillLevel,
+        experienceYears: authenticatedUser.experienceYears,
+        units: authenticatedUser.units,
+        skills: authenticatedUser.skills,
+        profileCompleted: authenticatedUser.profileCompleted
       };
       
       localStorage.setItem("currentUser", JSON.stringify(userDataWithoutPassword));
-      localStorage.setItem("userData", JSON.stringify(userDataWithoutPassword));
+      
+      // Update userData structure for multiple users
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+      userData[authenticatedUser.username] = userDataWithoutPassword;
+      localStorage.setItem("userData", JSON.stringify(userData));
       
       // Set the user's sport preference
       console.log('Login - Setting sport to:', authenticatedUser.sport);
@@ -113,7 +126,11 @@ export default function Login() {
       };
       
       localStorage.setItem("currentUser", JSON.stringify(demoUserData));
-      localStorage.setItem("userData", JSON.stringify(demoUserData));
+      
+      // Update userData structure for demo user
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+      userData["player"] = demoUserData;
+      localStorage.setItem("userData", JSON.stringify(userData));
       
       // Trigger authentication change event for App.jsx to react
       window.dispatchEvent(new Event('authChange'));
