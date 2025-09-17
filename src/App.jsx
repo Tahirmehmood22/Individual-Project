@@ -54,9 +54,7 @@ const isProfileComplete = () => {
 };
 
 const App = () => {
-  const [authenticated, setAuthenticated] = useState(() => {
-    return localStorage.getItem("isLoggedIn") === "true";
-  });
+  const [authenticated, setAuthenticated] = useState(false); // Always start as not authenticated
 
   const [profileComplete, setProfileComplete] = useState(() => {
     return isProfileComplete();
@@ -71,8 +69,8 @@ const App = () => {
       setProfileComplete(isProfileComp);
     };
 
-    // Check authentication on mount
-    checkAuth();
+    // Don't check authentication on mount - always start from login
+    // checkAuth();
 
     // Listen for storage changes (for cross-tab synchronization)
     window.addEventListener('storage', checkAuth);

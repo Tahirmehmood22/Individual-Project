@@ -2,13 +2,24 @@
 export const generateUserAchievements = (currentUser, userSkills) => {
   if (!currentUser) return [];
   
-  // For demo user, use mock achievements
+  // For demo user, use full mock achievements
   if (currentUser.username === 'player') {
     return [
       { name: "First Tournament", description: "Participated in your first tournament.", type: "milestone" },
       { name: "Best Serve 2025", description: "Awarded for best serve in 2025 season.", type: "award" },
       { name: "Junior League Finalist", description: "Reached finals in Junior League.", type: "milestone" },
-      { name: "Regional Champion", description: "Won the regional championship.", type: "champion" }
+      { name: "Most Improved Player 2024", description: "Recognized for most improvement in 2024.", type: "award" },
+      { name: "Regional Champion", description: "Won the regional championship.", type: "champion" },
+      { name: "Sportsmanship Award", description: "Displayed outstanding sportsmanship.", type: "award" },
+      { name: "Top Scorer", description: "Scored the most points in a season.", type: "milestone" },
+      { name: "MVP 2025", description: "Most Valuable Player of 2025.", type: "award" },
+      { name: "Best Footwork", description: "Demonstrated best footwork skills.", type: "milestone" },
+      { name: "Team Captain", description: "Served as team captain.", type: "milestone" },
+      { name: "Fair Play Award", description: "Exemplary fair play throughout the season.", type: "award" },
+      { name: "Fastest Smash", description: "Recorded the fastest smash.", type: "milestone" },
+      { name: "Best Net Play", description: "Outstanding net play performance.", type: "milestone" },
+      { name: "Most Consistent Player", description: "Maintained consistent performance.", type: "milestone" },
+      { name: "Training Star", description: "Exceptional dedication in training.", type: "award" }
     ];
   }
   
@@ -96,12 +107,17 @@ export const generateUserAchievements = (currentUser, userSkills) => {
 export const generateUserGoals = (currentUser, userSkills) => {
   if (!currentUser) return [];
   
-  // For demo user, use mock goals
+  // For demo user, use full mock goals
   if (currentUser.username === 'player') {
     return [
       { goal: "Win a regional tournament", progress: "In progress" },
       { goal: "Improve smash technique", progress: "Completed" },
-      { goal: "Practice footwork daily", progress: "In progress" }
+      { goal: "Practice footwork daily", progress: "In progress" },
+      { goal: "Achieve 90% serve accuracy", progress: "Not started" },
+      { goal: "Play 50 matches this year", progress: "In progress" },
+      { goal: "Master drop shot placement", progress: "In progress" },
+      { goal: "Increase endurance to 90 minutes", progress: "Not started" },
+      { goal: "Learn advanced court strategies", progress: "In progress" }
     ];
   }
   

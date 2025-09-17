@@ -109,6 +109,7 @@ export default function Login() {
       console.log('Login - Demo login successful!');
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userSport", "badminton"); // Set default sport
+      localStorage.setItem("profileCompleted", "true"); // Mark profile as complete for demo user
       
       // Create mock user data for demo (using Ram Charan's profile)
       const demoUserData = {
@@ -122,7 +123,17 @@ export default function Login() {
         location: "Stockholm, Sweden",
         sport: "badminton",
         level: "Rising Star",
-        avatar: "https://content.tournamentsoftware.com/images/profile/3C3E88CA-FA0B-43B0-81E3-C5A8BC84F0EF/xlarge/9FB22704-6740-4049-A08B-D394C186C987.jpg?v=20250504153119"
+        avatar: "https://content.tournamentsoftware.com/images/profile/3C3E88CA-FA0B-43B0-81E3-C5A8BC84F0EF/xlarge/9FB22704-6740-4049-A08B-D394C186C987.jpg?v=20250504153119",
+        profileCompleted: true,
+        // Add mock skills for demo user
+        skills: {
+          "Forehand Clear": 7,
+          "Backhand Drop": 5,
+          "Lightning Footwork": 8,
+          "Strategic Mind": 4,
+          "Precision Serve": 6,
+          "Power Smash": 6
+        }
       };
       
       localStorage.setItem("currentUser", JSON.stringify(demoUserData));
