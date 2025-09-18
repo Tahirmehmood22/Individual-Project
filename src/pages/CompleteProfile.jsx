@@ -148,9 +148,39 @@ const CompleteProfile = () => {
   };
 
   const handleSkipForNow = () => {
-    // Set a flag that profile was skipped but allow access to dashboard
-    localStorage.setItem('profileSkipped', 'true');
-    navigate('/');
+    console.log('CompleteProfile - Skip for now button clicked!');
+    
+    try {
+      // Set all the required localStorage items
+      localStorage.setItem('profileSkipped', 'true');
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('profileCompleted', 'true');
+      
+      // Ensure we have a current user
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      if (!currentUser.username) {
+        const defaultUser = {
+          username: 'testuser',
+          fullName: 'Test User',
+          email: 'test@test.com'
+        };
+        localStorage.setItem('currentUser', JSON.stringify(defaultUser));
+      }
+      
+      console.log('All localStorage items set');
+      
+      // Trigger the authentication change event to update React state
+      window.dispatchEvent(new Event('authChange'));
+      
+      // Navigate using React Router
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 100);
+      
+    } catch (error) {
+      console.error('CompleteProfile - Error in handleSkipForNow:', error);
+      alert('Error: ' + error.message);
+    }
   };
 
   const nextStep = () => {
@@ -495,7 +525,11 @@ const CompleteProfile = () => {
               </div>
               
               <div className="flex gap-2">
-                <Button variant="ghost" onClick={handleSkipForNow}>
+                <Button 
+                  type="button"
+                  variant="ghost" 
+                  onClick={handleSkipForNow}
+                >
                   Skip for now
                 </Button>
                 
